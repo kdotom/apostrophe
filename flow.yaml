@@ -1,11 +1,20 @@
 - Destination: 8SC
+  Monthly Payment: 166.67
+  Source: JO Investment Capital LLC
+- Destination: 8SC
+  Monthly Payment: 133.33
+  Source: JO Investment Capital LLC
+- Destination: 8SC
+  Monthly Payment: 0
+  Source: MOI LLC
+- Destination: First Core
+  Monthly Payment: 0
+  Source: 8SC
+- Destination: 8SC
   Monthly Payment: 1577.0
   Source: MOI LLC
 - Destination: 8SC
   Monthly Payment: 1700.0
-  Source: MOI LLC
-- Destination: 8SC
-  Monthly Payment: 325.0
   Source: MOI LLC
 - Destination: 8SC
   Monthly Payment: 225.0
@@ -14,31 +23,22 @@
   Monthly Payment: 25.0
   Source: 8SC
 - Destination: Krabea LLC
-  Monthly Payment: 81.66666666666667
+  Monthly Payment: 81.67
   Source: 8SC
 - Destination: Krabea LLC
-  Monthly Payment: 130.0
+  Monthly Payment: 0
   Source: 8SC
-- Destination: 8SC
-  Monthly Payment: 166.66666666666666
-  Source: JO Investment Capital LLC
-- Destination: 8SC
-  Monthly Payment: 133.33333333333334
-  Source: JO Investment Capital LLC
-- Destination: 8SC
-  Monthly Payment: 40.0
-  Source: Echo Nail Spa
 - Destination: Elaina
-  Monthly Payment: 33.333333333333336
+  Monthly Payment: 33.33
   Source: 8SC
 - Destination: J'Andrea
-  Monthly Payment: 33.333333333333336
+  Monthly Payment: 33.33
   Source: 8SC
 - Destination: J'Andrea
-  Monthly Payment: 33.333333333333336
+  Monthly Payment: 33.33
   Source: 8SC
 - Destination: Krabea LLC
-  Monthly Payment: 66.66666666666667
+  Monthly Payment: 66.67
   Source: 8SC
 - Destination: Krabea LLC
   Monthly Payment: 50.0
@@ -49,3 +49,12 @@
 - Destination: BHG
   Monthly Payment: 1344.0
   Source: 8SC
+- Destination: Sofi
+  Monthly Payment: 781.54
+  Source: 8SC
+- Destination: Upgrade
+  Monthly Payment: 699.92
+  Source: 8SC
+- Destination: 8SC
+  Monthly Payment: 40.0
+  Source: Echo Nail Spa

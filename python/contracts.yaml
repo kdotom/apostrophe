@@ -93,6 +93,7 @@
 - Source: Echo Nail Spa
   Destination: 8SC
   Contract: Constant
+  Start: 11/1/2022
   Monthly Payment: 40
   Payout Day: 28
 
@@ -167,3 +168,39 @@
   End: 09/12/2027
   Monthly Payment: 1344.00
   Payout Day: 15
+
+
+- Source: 8SC
+  Destination: Sofi
+  Contract: Note
+  Note Type: With Principal
+  Interest: 12.15%
+  Principal: 35000
+  Start: 12/15/2021
+  End: 02/27/2023
+  Monthly Payment: 781.54
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Upgrade
+  Contract: Note
+  Note Type: With Principal
+  Interest: 16.94%
+  Principal:    28200
+  Start: 12/15/2021
+  End: 02/27/2023
+  Monthly Payment: 699.92
+  Payout Day: 15
+
+
+- Source: 8SC
+  Destination: First Core
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 29.99%
+  Principal: 61111.11
+  Start: 06/14/2023
+  End: 08/14/2023
+  Payout Day: 14
+
+
