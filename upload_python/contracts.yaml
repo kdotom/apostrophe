@@ -1,0 +1,206 @@
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: With Principal
+  Interest: 23%
+  Principal: 50000
+  Start: 09/15/2021
+  End: 10/15/2024
+  Payout Day: 15
+  Monthly Payment: 1577
+
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: With Principal
+  Interest: 25%
+  Principal: 65000
+  Start: 10/15/2022
+  End: 9/15/2027
+  Payout Day: 15
+  Monthly Payment: 1700
+
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 60%
+  Principal: 6500
+  Start: 05/05/2023
+  End: 04/05/2024
+  Payout Day: 5
+
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 27%
+  Principal: 10000
+  Start: 01/15/2022
+  End: 12/15/2025
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Golad Ventures LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 1500
+  Start: 08/15/2022
+  End: 07/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Krabea LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 4900
+  Start: 12/15/2022
+  End: 11/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Krabea LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 24%
+  Principal: 6500
+  Start: 4/15/2023
+  End: 3/15/2024
+  Payout Day: 15
+
+- Source: JO Investment Capital LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 10000
+  Start: 08/1/2022
+  End: 07/1/2023
+  Payout Day: 1
+
+- Source: JO Investment Capital LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 8000
+  Start: 12/1/2022
+  End: 11/1/2023
+  Payout Day: 1
+
+- Source: Echo Nail Spa
+  Destination: 8SC
+  Contract: Constant
+  Start: 11/1/2022
+  Monthly Payment: 40
+  Payout Day: 28
+
+- Source: 8SC
+  Destination: Elaina
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 2000
+  Start: 12/15/2022
+  End: 11/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: J'Andrea
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 2000
+  Start: 12/15/2022
+  End: 11/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: J'Andrea
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 2000
+  Start: 08/15/2022
+  End: 07/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Krabea LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 4000
+  Start: 12/15/2022
+  End: 11/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Krabea LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 3000
+  Start: 08/15/2022
+  End: 07/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: First Core
+  Contract: Note
+  Note Type: With Principal
+  Interest: 21%
+  Principal: 19000
+  Start: 07/18/2022
+  End: 06/18/2027
+  Monthly Payment: 515.08
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: BHG
+  Contract: Note
+  Note Type: With Principal
+  Interest: 17.74%
+  Principal: 68695
+  Start: 10/12/2022
+  End: 09/12/2027
+  Monthly Payment: 1344.00
+  Payout Day: 15
+
+
+- Source: 8SC
+  Destination: Sofi
+  Contract: Note
+  Note Type: With Principal
+  Interest: 12.15%
+  Principal: 35000
+  Start: 12/15/2021
+  End: 02/27/2023
+  Monthly Payment: 781.54
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Upgrade
+  Contract: Note
+  Note Type: With Principal
+  Interest: 16.94%
+  Principal:    28200
+  Start: 12/15/2021
+  End: 02/27/2023
+  Monthly Payment: 699.92
+  Payout Day: 15
+
+
+- Source: 8SC
+  Destination: First Core
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 29.99%
+  Principal: 61111.11
+  Start: 06/14/2023
+  End: 08/13/2023
+  Payout Day: 14
+
+
