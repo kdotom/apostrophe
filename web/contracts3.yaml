@@ -1,0 +1,9 @@
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 12000
+  Start: 01/15/2023
+  End: 12/15/2023
+  Payout Day: 15

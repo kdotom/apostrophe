@@ -125,11 +125,38 @@ def yaml_to_dict(yaml_string):
         print("Error parsing YAML:", exc)
         return None
 
+def get_sankey_data(file_content, date_input):
+
+    date_prime = datetime.strptime(date_input, '%Y-%m-%d')
+    contracts = yaml_to_dict(file_content)
+    
+    flow_data = []
+    
+    sources = []
+    destinations = []
+    monthly_payments = []
+
+
+    days_in_month = calendar.monthrange(date_prime.year, date_prime.month)[1]
+    first_day_of_month = datetime(date_prime.year, date_prime.month, 1)
+    for i in range(days_in_month):
+        current_date = first_day_of_month + timedelta(days=i)
+        for contract in contracts:
+            if contract['Payout Day'] == current_date.day:
+                sources.append(contract['Source'])
+                destinations.append(contract['Destination'])
+                monthly_payments.append( calculate_payment(contract, current_date) )
+            
+                flow_data.append( {'Source': contract['Source'], 'Destination': contract['Destination'], 'Monthly Payment': round( calculate_payment(contract, date_prime) , 2 ) } )
+
+    return flow_data
+
+
 def simulate_contract(file_content, start_date_input, end_date_input, entity='8SC'):
     # Load Contracts
     # -------------------------------------------
 
-    yaml_file = 'contracts.yaml'
+    #yaml_file = 'contracts.yaml'
     #with open(yaml_file, 'r') as file:
     #    contracts = yaml.safe_load(file)
     contracts = yaml_to_dict(file_content)
@@ -153,34 +180,9 @@ def simulate_contract(file_content, start_date_input, end_date_input, entity='8S
 
     simulation_length_days = days_between(start_date_prime, end_date_prime)
 
-    sources = []
-    destinations = []
-    monthly_payments = []
-
 
     # calculate cashflow:
-
-    flow_data = []
-
-
-    days_in_month = calendar.monthrange(date_prime.year, date_prime.month)[1]
-    first_day_of_month = datetime(date_prime.year, date_prime.month, 1)
-    for i in range(days_in_month):
-        current_date = first_day_of_month + timedelta(days=i)
-        for contract in contracts:
-            if contract['Payout Day'] == current_date.day:
-                sources.append(contract['Source'])
-                destinations.append(contract['Destination'])
-                monthly_payments.append( calculate_payment(contract, current_date) )
-            
-                flow_data.append( {'Source': contract['Source'], 'Destination': contract['Destination'], 'Monthly Payment': round( calculate_payment(contract, date_prime) , 2 ) } )
-
-
-    data = {'Source': sources,
-            'Destination': destinations,
-            'Monthly Payment': monthly_payments,
-            }
-
+    flow_data = get_sankey_data(file_content, start_date_input)
     data = flow_data
 
     df = pd.DataFrame(data)

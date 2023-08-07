@@ -29,6 +29,5 @@ def upload_file():
     return jsonify(full_data)
 
 
-
 if __name__ == '__main__':
     app.run()
