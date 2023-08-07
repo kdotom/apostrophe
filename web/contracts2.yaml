@@ -1,0 +1,53 @@
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: With Principal
+  Interest: 19%
+  Principal: 50000
+  Start: 09/15/2021
+  End: 10/15/2024
+  Payout Day: 15
+  Monthly Payment: 1577
+
+- Source: MOI LLC
+  Destination: 8SC
+  Contract: Note
+  Note Type: With Principal
+  Interest: 18%
+  Principal: 65000
+  Start: 10/15/2022
+  End: 9/15/2027
+  Payout Day: 15
+  Monthly Payment: 1700
+
+- Source: 8SC
+  Destination: Krabea LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 40000
+  Start: 12/15/2022
+  End: 11/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: Krabea LLC
+  Contract: Note
+  Note Type: Interest-Only
+  Interest: 20%
+  Principal: 30000
+  Start: 08/15/2022
+  End: 07/15/2023
+  Payout Day: 15
+
+- Source: 8SC
+  Destination: First Core
+  Contract: Note
+  Note Type: With Principal
+  Interest: 21%
+  Principal: 19000
+  Start: 07/18/2022
+  End: 06/18/2027
+  Monthly Payment: 515.08
+  Payout Day: 15
+
