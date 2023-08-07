@@ -25,6 +25,7 @@
     <script>
         var chart;
         var stateChart;
+        var content;  // To store the file content
 
         function createChart(data) {
             const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
@@ -33,33 +34,44 @@
             chart.draw();
         }
 
-        function updateChart(data) {
-            const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
-            var chart = anychart.getChartById('sankey-chart');
-            chart.data(formattedData);
-            chart.container('sankey-chart');
-            chart.draw();
+	function updateChart(data) {
+	    const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
+	    var chart = anychart.getChartById('sankey-chart');
+	    if (chart) {
+		chart.data(formattedData);
+		chart.container('sankey-chart');
+		chart.draw();
+	    } else {
+		console.error("Sankey chart not found or not initialized.");
+	    }
+	}
+
+        function createStateChart(data, startDate, endDate) {
+            stateChart = anychart.line();
+
+            var series = stateChart.line(data);
+            var dateScale = anychart.scales.dateTime();
+            stateChart.xScale(dateScale);
+            stateChart.xAxis().labels().format(function() {
+                return anychart.format.dateTime(this.value, "MMM dd, yyyy");
+            });
+
+            dateScale.minimum(new Date(startDate));
+            dateScale.maximum(new Date(endDate));
+
+            stateChart.container('account-state-chart');
+            stateChart.draw();
+
+            // Add the click event listener here
+            stateChart.listen("pointClick", function(e) {
+                var clickedDate = new Date(e.point.get("x"));
+                updateSankeyWithDate(clickedDate);
+            });
         }
 
-	function createStateChart(data, startDate, endDate) {
-	    stateChart = anychart.line();
-
-	    var series = stateChart.line(data);
-	    var dateScale = anychart.scales.dateTime();
-	    stateChart.xScale(dateScale);
-	    stateChart.xAxis().labels().format(function() {
-		return anychart.format.dateTime(this.value, "MMM dd, yyyy");
-	    });
-
-	    dateScale.minimum(new Date(startDate));
-	    dateScale.maximum(new Date(endDate));
-
-	    stateChart.container('account-state-chart');
-	    stateChart.draw();
-	}
-	function updateStateChart(data) {
-	    if (stateChart) {
-		stateChart.data(data);
+        function updateStateChart(data) {
+            if (stateChart) {
+                stateChart.data(data);
                 stateChart.draw();
             } else {
                 createStateChart(data);
@@ -71,6 +83,12 @@
             var file = fileInput.files[0];
             var formData = new FormData();
             formData.append('file', file);
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                content = e.target.result;  // Storing the file content
+            }
+            reader.readAsText(file);
 
             var startDateInput = document.getElementById('startDateInput');
             var startDate = startDateInput.value;
@@ -105,6 +123,26 @@
                     } else {
                         updateStateChart(accountStateData);
                     }
+                },
+                error: function(xhr, status, error) {
+                    document.getElementById('result').innerHTML = xhr.responseText;
+                }
+            });
+        }
+
+        function updateSankeyWithDate(date) {
+	    var formattedDate = date.toISOString().split('T')[0];
+
+            $.ajax({
+                url: '/flow',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    'fileContent': content,
+                    'date': formattedDate
+                }),
+                success: function(response) {
+                    updateChart(response.sankey_data);
                 },
                 error: function(xhr, status, error) {
                     document.getElementById('result').innerHTML = xhr.responseText;

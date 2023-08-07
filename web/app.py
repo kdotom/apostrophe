@@ -29,5 +29,14 @@ def upload_file():
     return jsonify(full_data)
 
 
+@app.route('/flow', methods=['POST'])
+def flow_data():
+    file_content = request.json.get('fileContent')
+    date = request.json.get('date')
+
+    sankey_data = get_sankey_data(file_content, date)
+
+    return jsonify({'sankey_data': sankey_data})
+
 if __name__ == '__main__':
     app.run()

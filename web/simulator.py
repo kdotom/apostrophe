@@ -129,7 +129,7 @@ def get_sankey_data(file_content, date_input):
 
     date_prime = datetime.strptime(date_input, '%Y-%m-%d')
     contracts = yaml_to_dict(file_content)
-    
+
     flow_data = []
     
     sources = []
@@ -148,7 +148,7 @@ def get_sankey_data(file_content, date_input):
                 monthly_payments.append( calculate_payment(contract, current_date) )
             
                 flow_data.append( {'Source': contract['Source'], 'Destination': contract['Destination'], 'Monthly Payment': round( calculate_payment(contract, date_prime) , 2 ) } )
-
+    
     return flow_data
 
 
