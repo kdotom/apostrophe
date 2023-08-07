@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>File Upload</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-bundle.min.js"></script>
 </head>
+
 <body>
     <h1>Choose a YAML File to Upload</h1>
     <input type="file" id="fileInput" />
-    
+
     <label for="startDateInput">Start Date:</label>
     <input type="date" id="startDateInput" />
 
@@ -17,10 +19,12 @@
 
     <button onclick="submitForm()">Submit</button>
     <div id="result"></div>
-    <div id="sankey-chart" style="width: 100%; height: 100vh;" data=[{}]></div>
+    <div id="sankey-chart" style="width: 100%; height: 100vh;" data=[{}></div>
+    <div id="account-state-chart" style="width: 100%; height: 400px;"></div>
 
     <script>
         var chart;
+        var stateChart;
 
         function createChart(data) {
             const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
@@ -29,52 +33,89 @@
             chart.draw();
         }
 
-	function updateChart(data) {
-		    const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
-		    var chart = anychart.getChartById('sankey-chart'); // Get the existing chart
-		    chart.data(formattedData);
-		    // set the container id
-		    chart.container('sankey-chart');
-		    // initiate drawing the chart
-		    chart.draw();
-		}
-	function submitForm() {
-		    var fileInput = document.getElementById('fileInput');
-		    var file = fileInput.files[0];
-		    var formData = new FormData();
-		    formData.append('file', file);
+        function updateChart(data) {
+            const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
+            var chart = anychart.getChartById('sankey-chart');
+            chart.data(formattedData);
+            chart.container('sankey-chart');
+            chart.draw();
+        }
 
-		    var startDateInput = document.getElementById('startDateInput');
-		    var startDate = startDateInput.value;
-		    formData.append('startDate', startDate);
+	function createStateChart(data, startDate, endDate) {
+	    stateChart = anychart.line();
 
-		    var endDateInput = document.getElementById('endDateInput');
-		    var endDate = endDateInput.value;
-		    formData.append('endDate', endDate);
+	    var series = stateChart.line(data);
+	    var dateScale = anychart.scales.dateTime();
+	    stateChart.xScale(dateScale);
+	    stateChart.xAxis().labels().format(function() {
+		return anychart.format.dateTime(this.value, "MMM dd, yyyy");
+	    });
 
-		    $.ajax({
-			url: '/upload',
-			type: 'POST',
-			data: formData,
-			processData: false,
-			contentType: false,
-			success: function (response) {
-			    if (!chart) {
-				console.log(response.account_state)
-				createChart(response.sankey_data);
-			    } else {
-				console.log(response.account_state)
-				updateChart(response.sankey_data);
-			    }
-			},
-			error: function (xhr, status, error) {
-			    document.getElementById('result').innerHTML = xhr.responseText;
-			}
-		    });
-		}
+	    dateScale.minimum(new Date(startDate));
+	    dateScale.maximum(new Date(endDate));
 
-	    </script>
+	    stateChart.container('account-state-chart');
+	    stateChart.draw();
+	}
+	function updateStateChart(data) {
+	    if (stateChart) {
+		stateChart.data(data);
+                stateChart.draw();
+            } else {
+                createStateChart(data);
+            }
+        }
+
+        function submitForm() {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+
+            var startDateInput = document.getElementById('startDateInput');
+            var startDate = startDateInput.value;
+            formData.append('startDate', startDate);
+
+            var endDateInput = document.getElementById('endDateInput');
+            var endDate = endDateInput.value;
+            formData.append('endDate', endDate);
+
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (!chart) {
+                        createChart(response.sankey_data);
+                    } else {
+                        updateChart(response.sankey_data);
+                    }
+
+                    const accountStateData = response.account_state.map((value, index) => {
+                        return {
+                            x: new Date(startDate).getTime() + index * (new Date(endDate) - new Date(startDate)) / (response.account_state.length - 1),
+                            value: value
+                        };
+                    });
+
+                    if (!stateChart) {
+                        createStateChart(accountStateData, startDate, endDate);
+                    } else {
+                        updateStateChart(accountStateData);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    document.getElementById('result').innerHTML = xhr.responseText;
+                }
+            });
+        }
+
+    </script>
+    <script src="timeline.js"></script>
     <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
 </body>
+
 </html>
 
