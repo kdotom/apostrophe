@@ -126,7 +126,6 @@ def yaml_to_dict(yaml_string):
         return None
 
 def get_sankey_data(file_content, date_input):
-
     date_prime = datetime.strptime(date_input, '%Y-%m-%d')
     contracts = yaml_to_dict(file_content)
 

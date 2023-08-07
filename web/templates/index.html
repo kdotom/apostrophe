@@ -25,7 +25,7 @@
     <script>
         var chart;
         var stateChart;
-        var content;  // To store the file content
+        var fileContent = '';  // To store the YAML file content
 
         function createChart(data) {
             const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
@@ -34,17 +34,16 @@
             chart.draw();
         }
 
-	function updateChart(data) {
-	    const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
-	    var chart = anychart.getChartById('sankey-chart');
-	    if (chart) {
-		chart.data(formattedData);
-		chart.container('sankey-chart');
-		chart.draw();
-	    } else {
-		console.error("Sankey chart not found or not initialized.");
-	    }
-	}
+        function updateChart(data) {
+            if (chart) {
+                const formattedData = data.map(d => [d.Source, d.Destination, d['Monthly Payment']]);
+                chart.data(formattedData);
+                chart.container('sankey-chart');
+                chart.draw();
+            } else {
+                console.error("Sankey chart not found or not initialized.");
+            }
+        }
 
         function createStateChart(data, startDate, endDate) {
             stateChart = anychart.line();
@@ -61,98 +60,84 @@
 
             stateChart.container('account-state-chart');
             stateChart.draw();
-
-            // Add the click event listener here
-            stateChart.listen("pointClick", function(e) {
-                var clickedDate = new Date(e.point.get("x"));
-                updateSankeyWithDate(clickedDate);
-            });
-        }
-
-        function updateStateChart(data) {
-            if (stateChart) {
-                stateChart.data(data);
-                stateChart.draw();
-            } else {
-                createStateChart(data);
-            }
-        }
-
-        function submitForm() {
-            var fileInput = document.getElementById('fileInput');
-            var file = fileInput.files[0];
-            var formData = new FormData();
-            formData.append('file', file);
-
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                content = e.target.result;  // Storing the file content
-            }
-            reader.readAsText(file);
-
-            var startDateInput = document.getElementById('startDateInput');
-            var startDate = startDateInput.value;
-            formData.append('startDate', startDate);
-
-            var endDateInput = document.getElementById('endDateInput');
-            var endDate = endDateInput.value;
-            formData.append('endDate', endDate);
-
-            $.ajax({
-                url: '/upload',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (!chart) {
-                        createChart(response.sankey_data);
-                    } else {
-                        updateChart(response.sankey_data);
-                    }
-
-                    const accountStateData = response.account_state.map((value, index) => {
-                        return {
-                            x: new Date(startDate).getTime() + index * (new Date(endDate) - new Date(startDate)) / (response.account_state.length - 1),
-                            value: value
-                        };
-                    });
-
-                    if (!stateChart) {
-                        createStateChart(accountStateData, startDate, endDate);
-                    } else {
-                        updateStateChart(accountStateData);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    document.getElementById('result').innerHTML = xhr.responseText;
-                }
+            
+            stateChart.listen('pointClick', function(e) {
+                var clickedDate = new Date(e.point.get('x'));
+                var formattedDate = clickedDate.toISOString().split('T')[0]; 
+                updateSankeyWithDate(formattedDate);
             });
         }
 
         function updateSankeyWithDate(date) {
-	    var formattedDate = date.toISOString().split('T')[0];
-
             $.ajax({
                 url: '/flow',
                 type: 'POST',
                 contentType: "application/json",
-                data: JSON.stringify({
-                    'fileContent': content,
-                    'date': formattedDate
-                }),
+                data: JSON.stringify({ "fileContent": fileContent, "date": date }),
                 success: function(response) {
                     updateChart(response.sankey_data);
                 },
                 error: function(xhr, status, error) {
-                    document.getElementById('result').innerHTML = xhr.responseText;
+                    console.error(xhr.responseText);
                 }
             });
         }
 
+	function submitForm() {
+	    var fileInput = document.getElementById('fileInput');
+	    var file = fileInput.files[0];
+	    
+	    // Reading the contents of the file
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+		fileContent = event.target.result;
+		
+		var formData = new FormData();
+		formData.append('file', file);
+
+		var startDateInput = document.getElementById('startDateInput');
+		var startDate = startDateInput.value;
+		formData.append('startDate', startDate);
+
+		var endDateInput = document.getElementById('endDateInput');
+		var endDate = endDateInput.value;
+		formData.append('endDate', endDate);
+
+		$.ajax({
+		    url: '/upload',
+		    type: 'POST',
+		    data: formData,
+		    processData: false,
+		    contentType: false,
+		    success: function(response) {
+			if (!chart) {
+			    createChart(response.sankey_data);
+			} else {
+			    updateChart(response.sankey_data);
+			}
+
+			const accountStateData = response.account_state.map((value, index) => {
+			    return {
+				x: new Date(startDate).getTime() + index * (new Date(endDate) - new Date(startDate)) / (response.account_state.length - 1),
+				value: value
+			    };
+			});
+
+			if (!stateChart) {
+			    createStateChart(accountStateData, startDate, endDate);
+			} else {
+			    updateStateChart(accountStateData);
+			}
+		    },
+		    error: function(xhr, status, error) {
+			document.getElementById('result').innerHTML = xhr.responseText;
+		    }
+		});
+	    };
+	    reader.readAsText(file);
+	}
+
     </script>
-    <script src="timeline.js"></script>
-    <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
 </body>
 
 </html>
